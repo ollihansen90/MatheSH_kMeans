@@ -57,7 +57,7 @@ with col8:
 st.write(", ".join(selected_colors))
 
 model = kMeans(8)
-model.codebooks = np.array([np.array([int(c[1:3]/255, 16), int(c[3:5]/255, 16), int(c[5:]/255, 16)]) for c in selected_colors])
+model.codebooks = np.array([np.array([int(c[1:3], 16)/255, int(c[3:5], 16)/255, int(c[5:], 16)/255]) for c in selected_colors])
 cvec = model.pred(image.reshape(-1, 3)).reshape(image.shape[:2])
 #print(cvec)
 new_img = np.zeros_like(image)
