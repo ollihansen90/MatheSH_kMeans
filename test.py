@@ -22,36 +22,22 @@ st.title("Farbreduktion durch Clustering")
 
 image = Image.open("img.jpeg")
 image = np.array(image)[::2, ::2]/255
-st.image(image, caption="Originalbild", use_container_width=True)
 
 # Platzhalter für Colorpicker
 st.subheader("Wähle 8 Codebookvektoren")
-col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+col1, col2, col3 = st.columns([1,1,6])
 selected_colors = []
 with col1:
-    color = st.color_picker("Farbe 1", "#000000")
-    selected_colors.append(color)
+    for i in range(4):
+        color = st.color_picker(f"Farbe {i+1}", "#000000")
+        selected_colors.append(color)
 with col2:
-    color = st.color_picker("Farbe 2", "#000000")
-    selected_colors.append(color)
+    for i in range(4,8):
+        color = st.color_picker(f"Farbe {i+1}", "#000000")
+        selected_colors.append(color)
 with col3:
-    color = st.color_picker("Farbe 3", "#000000")
-    selected_colors.append(color)
-with col4:
-    color = st.color_picker("Farbe 4", "#000000")
-    selected_colors.append(color)
-with col5:
-    color = st.color_picker("Farbe 5", "#000000")
-    selected_colors.append(color)
-with col6:
-    color = st.color_picker("Farbe 6", "#000000")
-    selected_colors.append(color)
-with col7:
-    color = st.color_picker("Farbe 7", "#000000")
-    selected_colors.append(color)
-with col8:
-    color = st.color_picker("Farbe 8", "#000000")
-    selected_colors.append(color)
+    st.image(image, caption="Originalbild", use_container_width=True)
+
     
 #selected_colors = st.text_input(value=", ".join(selected_colors)).split(", ")
 
