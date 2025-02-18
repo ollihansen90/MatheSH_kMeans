@@ -65,13 +65,3 @@ for i in range(8):
     new_img[cvec==i] = model.codebooks[i]
 
 st.image(new_img, caption=f"kMeans-Annäherung, Fehler {model.fehler(image.reshape(-1,3)):.4f}", use_container_width=True)
-
-if False:
-    model.fit(image.reshape(-1, 3), verbose=True)
-    cvec = model.pred(image.reshape(-1, 3)).reshape(image.shape[:2])
-    print(cvec)
-    new_img = np.zeros_like(image)
-    for i in range(8):
-        new_img[cvec==i] = model.codebooks[i]
-
-    st.image(new_img, caption="kMeans-Annäherung", use_container_width=True)
