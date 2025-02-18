@@ -1,7 +1,22 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
-from utils import kMeans
+
+class kMeans():
+    def __init__(self, num_cluster=5, data=None):
+        self.codebooks = 3*np.random.rand(num_cluster, 2)-1.5
+
+    def pred(self, x):
+        dists = np.sqrt(np.sum((x[:,None]-self.codebooks[None])**2, axis=-1)).T
+        return np.argmin(dists, axis=0)
+
+    def fehler(self, x):
+        dists = np.sqrt(np.sum((x[:,None]-self.codebooks[None])**2, axis=-1)).T
+        d = np.argmin(dists, axis=0)
+        out = 0
+        for j,i in enumerate(d):
+            out += dists[i,j]
+        return out/len(x)
 
 st.title("Farbreduktion durch Clustering")
 
