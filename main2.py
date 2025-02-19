@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
+import time
 
 class kMeans():
     def __init__(self, num_cluster=5, data=None):
@@ -25,13 +26,15 @@ image = np.array(image)[::2, ::2]/255
 st.image(image, caption="Originalbild", use_container_width=True)
 
 # Wähle einen Wert für, Auswahlmöglichkeiten 4, 8, 16, 32
-k = st.selectbox("Wähle Anzahl der Farben", [4, 8, 16, 32])
-model = kMeans(k)
-model.fit(image.reshape(-1, 3), verbose=False, max_it=100)
-cvec = model.pred(image.reshape(-1, 3)).reshape(image.shape[:2])
-#print(cvec)
-new_img = np.zeros_like(image)
-for i in range(k):
-    new_img[cvec==i] = model.codebooks[i]
+k = st.selectbox("Wähle Anzahl der Farben", [4, 8, 16, 32, 64, 128, 256])
+fehlerdict = {4: 0.060077662393129276, 8: 0.0393518538412903, 16: 0.026051415851631534, 32: 0.015555190300325317, 64: 0.011502079846342567, 128: 0.007934572557017135, 256: 0.005912390338907347}
+new_img = Image.open(f"img_{k}.png")
+new_img = np.array(new_img)[::2, ::2]/255
 
-st.image(new_img, caption=f"kMeans-Annäherung, Fehler {model.fehler(image.reshape(-1,3)):.4f}", use_container_width=True)
+bar = st.progress(0, text=f"Lade kMeans mit {k} Zentren... Bitte warten...")
+
+for percent_complete in range(100):
+    time.sleep(0.1*k/256)
+    bar.progress(percent_complete + 1, text=f"Lade kMeans mit {k} Zentren... Bitte warten...")
+bar.empty()
+st.image(new_img, caption=f"kMeans-Annäherung, Fehler {fehlerdict[k]:.4f}", use_container_width=True)
